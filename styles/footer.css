@@ -1,0 +1,4 @@
+
+.footer {
+@apply bg-black text-white p-8 text-center;
+}

@@ -1,0 +1,13 @@
+.hero {
+@apply relative h-[80vh] overflow-hidden;
+}
+
+
+.parallaxImg {
+@apply absolute w-full h-full object-cover opacity-0 transition-all duration-700;
+}
+
+
+.active {
+@apply opacity-100;
+}
