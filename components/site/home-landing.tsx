@@ -254,48 +254,17 @@ const HeroVisual = memo(function HeroVisual({
     | SiteContent["gallery"]["carousels"][number]["images"][number];
 }>) {
   const [activeHeroIndex, setActiveHeroIndex] = useState(0);
-  const [loadedSources, setLoadedSources] = useState<Set<string>>(
-    () => new Set(heroImages[0]?.src ? [heroImages[0].src] : []),
-  );
-
-  useEffect(() => {
-    if (heroImages.length < 2) return;
-    let cancelled = false;
-    heroImages.forEach((image, index) => {
-      if (index === 0 || !image.src) return;
-      const preloadImage = new window.Image();
-      preloadImage.src = image.src;
-      preloadImage.onload = () => {
-        if (cancelled) return;
-        setLoadedSources((current) => {
-          if (current.has(image.src)) return current;
-          const next = new Set(current);
-          next.add(image.src);
-          return next;
-        });
-      };
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [heroImages]);
 
   useEffect(() => {
     if (heroImages.length < 2) return;
     const interval = window.setInterval(() => {
-      setActiveHeroIndex((current) => {
-        const nextIndex = (current + 1) % heroImages.length;
-        return loadedSources.has(heroImages[nextIndex]?.src ?? "")
-          ? nextIndex
-          : current;
-      });
+      setActiveHeroIndex((current) => (current + 1) % heroImages.length);
     }, 7000);
     return () => window.clearInterval(interval);
-  }, [heroImages, loadedSources]);
+  }, [heroImages]);
 
   return (
-    <RevealSection amount={0.35} className="relative">
+    <div className="relative">
       <div className="relative mx-auto aspect-[4/4] w-full overflow-hidden rounded-[2.2rem] bg-[#f4eadf] shadow-[0_30px_80px_rgba(142,110,84,0.15)] sm:max-w-none sm:aspect-[4/5] sm:rounded-[2.4rem]">
         {heroImages.length > 0 ? (
           heroImages.map((image, index) => (
@@ -313,18 +282,12 @@ const HeroVisual = memo(function HeroVisual({
                 src={image.src}
                 alt={image.alt}
                 fill
-                priority={index < 2}
-                loading={index < 2 ? "eager" : "lazy"}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 76vw, 42vw"
+                priority={index === 0}
+                fetchPriority={index === 0 ? "high" : "auto"}
+                loading={index === 0 ? "eager" : "lazy"}
+                quality={82}
+                sizes="(max-width: 1024px) 76vw, 42vw"
                 className="object-cover"
-                onLoad={() =>
-                  setLoadedSources((current) => {
-                    if (current.has(image.src)) return current;
-                    const next = new Set(current);
-                    next.add(image.src);
-                    return next;
-                  })
-                }
               />
             </motion.div>
           ))
@@ -334,13 +297,15 @@ const HeroVisual = memo(function HeroVisual({
             alt={heroImage.alt}
             fill
             priority
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 76vw, 42vw"
+            fetchPriority="high"
+            quality={82}
+            sizes="(max-width: 1024px) 76vw, 42vw"
             className="object-cover"
           />
         ) : null}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.62),transparent_34%),linear-gradient(180deg,rgba(255,249,241,0.02),rgba(65,44,30,0.22))]" />
       </div>
-    </RevealSection>
+    </div>
   );
 });
 
@@ -385,6 +350,10 @@ const MobileHeroBackdrop = memo(function MobileHeroBackdrop({
               src={image.src}
               alt=""
               fill
+              priority={index === 0}
+              fetchPriority={index === 0 ? "high" : "auto"}
+              loading={index === 0 ? "eager" : "lazy"}
+              quality={74}
               sizes="100vw"
               className="object-cover"
             />
@@ -395,6 +364,9 @@ const MobileHeroBackdrop = memo(function MobileHeroBackdrop({
           src={mobileHeroImage.src}
           alt=""
           fill
+          priority
+          fetchPriority="high"
+          quality={74}
           sizes="100vw"
           className="object-cover"
         />
@@ -657,7 +629,7 @@ function HeroSection({
       <motion.div
         aria-hidden="true"
         className="absolute inset-0 z-0"
-        style={{ x: haloX, y: haloY }}
+        style={isMobile ? undefined : { x: haloX, y: haloY }}
       >
         <motion.div
           className="absolute inset-x-[-10%] top-[-8%] h-[28rem] rounded-[50%] bg-[radial-gradient(circle_at_50%_50%,rgba(248,225,194,0.62),rgba(244,214,177,0.32)_28%,rgba(255,255,255,0)_70%)] blur-3xl"
@@ -822,7 +794,7 @@ function HeroSection({
 
       <div className="site-shell relative z-10 grid items-center gap-8 lg:grid-cols-[1.08fr_0.92fr]">
         <RevealSection amount={0.4} className="relative z-10">
-          <MobileHeroBackdrop heroImages={heroImages} heroImage={heroImage} />
+          {isMobile ? <MobileHeroBackdrop heroImages={heroImages} heroImage={heroImage} /> : null}
           <SectionEyebrow>{content.hero.eyebrow || "בית מדרש"}</SectionEyebrow>
           <motion.h1
             initial={reduceMotion ? undefined : { opacity: 0, y: 32 }}

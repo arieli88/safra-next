@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Frank_Ruhl_Libre, Heebo } from "next/font/google";
+import Script from "next/script";
 
 import { AccessibilityControls } from "@/components/site/accessibility-controls";
 import { createPageMetadata } from "@/lib/seo";
@@ -11,12 +12,14 @@ const heebo = Heebo({
   subsets: ["hebrew"],
   variable: "--font-heebo",
   weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
 const frankRuhlLibre = Frank_Ruhl_Libre({
   subsets: ["hebrew", "latin"],
   variable: "--font-frank-ruhl",
   weight: ["400", "500", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -57,12 +60,24 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="he" dir="rtl" className={`${heebo.variable} ${frankRuhlLibre.variable}`} suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://lh3.googleusercontent.com" crossOrigin="" />
+      </head>
       <body>
         <a href="#main-content" className="skip-link">
           דילוג לתוכן הראשי
         </a>
         <div id="main-content">{children}</div>
         <AccessibilityControls />
+        <Script id="microsoft-clarity" strategy="afterInteractive">
+          {`
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "w7z566jtun");
+          `}
+        </Script>
       </body>
     </html>
   );
