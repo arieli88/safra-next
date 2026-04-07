@@ -73,7 +73,7 @@ export function buildOrganizationJsonLd(content: SiteContent) {
     name: content.nav.title,
     url: getAbsoluteUrl("/"),
     description: content.meta.description,
-    logo: getAbsoluteUrl("/apple-icon"),
+    logo: getAbsoluteUrl("/icons/icon-512.png"),
     image: getAbsoluteUrl("/opengraph-image"),
     email,
     telephone,
