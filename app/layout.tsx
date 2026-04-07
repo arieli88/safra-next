@@ -34,7 +34,13 @@ export const metadata: Metadata = {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
       { url: "/icons/icon.svg", type: "image/svg+xml" },
+      { url: "/icons/favicon-96x96.png", type: "image/png", sizes: "96x96" },
       { url: "/icons/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      {
+        url: "/icons/favicon-dark.png",
+        type: "image/png",
+        media: "(prefers-color-scheme: dark)",
+      },
       { url: "/icons/icon-192.png", type: "image/png", sizes: "192x192" },
       { url: "/icons/icon-512.png", type: "image/png", sizes: "512x512" },
     ],
