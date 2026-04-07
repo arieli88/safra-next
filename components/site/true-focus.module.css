@@ -1,0 +1,84 @@
+.focusContainer {
+  position: relative;
+  display: flex;
+  gap: 0.8em;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  outline: none;
+  user-select: none;
+}
+
+.focusWord {
+  position: relative;
+  font-size: clamp(1.35rem, 2vw, 1.9rem);
+  font-weight: 900;
+  line-height: 1.2;
+  color: #473122;
+  transition:
+    filter 0.3s ease,
+    color 0.3s ease;
+  outline: none;
+  user-select: none;
+}
+
+.focusWordActive {
+  filter: blur(0);
+}
+
+.focusFrame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  box-sizing: content-box;
+  border: none;
+}
+
+.corner {
+  position: absolute;
+  width: 0.95rem;
+  height: 0.95rem;
+  border: 3px solid var(--border-color, #7a5334);
+  filter: drop-shadow(0 0 4px var(--glow-color, rgba(122, 83, 52, 0.28)));
+  border-radius: 3px;
+  transition: none;
+}
+
+.topLeft {
+  top: -10px;
+  left: -10px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.topRight {
+  top: -10px;
+  right: -10px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.bottomLeft {
+  bottom: -10px;
+  left: -10px;
+  border-right: none;
+  border-top: none;
+}
+
+.bottomRight {
+  bottom: -10px;
+  right: -10px;
+  border-left: none;
+  border-top: none;
+}
+
+@media (max-width: 640px) {
+  .focusContainer {
+    gap: 0.65em;
+  }
+
+  .focusWord {
+    font-size: 1.15rem;
+  }
+}

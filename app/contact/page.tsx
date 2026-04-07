@@ -1,0 +1,35 @@
+import type { Metadata } from "next";
+
+import { ContactExperience } from "@/components/site/contact-experience";
+import { buildPlaceJsonLd, createPageMetadata } from "@/lib/seo";
+import { getSiteContent } from "@/lib/site-content-store";
+import { withStaticSiteCopy } from "@/lib/static-site-copy";
+
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const content = withStaticSiteCopy(await getSiteContent());
+
+  return createPageMetadata({
+    title: "צור קשר, דרכי הגעה ושעות פעילות",
+    description: content.contactPage.description,
+    path: "/contact",
+    keywords: [...content.meta.keywords, "צור קשר", "דרכי הגעה", "שעות פעילות"],
+  });
+}
+
+export default async function ContactPage() {
+  const content = await getSiteContent();
+  const staticContent = withStaticSiteCopy(content);
+  const placeJsonLd = buildPlaceJsonLd(staticContent);
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(placeJsonLd) }}
+      />
+      <ContactExperience content={staticContent} />
+    </>
+  );
+}
