@@ -1204,11 +1204,12 @@ function ClosingSection({ content }: Readonly<{ content: SiteContent }>) {
         <RevealSection>
           <SectionEyebrow>לבוא כמו שאתם</SectionEyebrow>
           <p className="mt-6 font-serif text-[2.2rem] leading-[1.55] text-[#302319] sm:text-[3rem]">
-           הבית האמיתי הוא המקום שבו נפגשים הלבבות ללמוד ולגדול יחד
-            <br />
+            "עשו כתות כתות ועסקו בתורה לפי שאין התורה נקנית אלא בחבורה"
+             <br />
+            <span className="text-[0.8em] text-[#7d624f]">~מסכת ברכות סג ע"ב~</span>
           </p>
           <p className="mt-5 text-[1rem] leading-8 text-[#6d5a49]">
-            ספרא מחכה עם תורה, שיחה, אור רך וכתובת אחת פשוטה בלב העיר.
+            מוזמנים לקחת חלק בחבורה שלנו!
           </p>
           <p className="mt-8 text-[0.8rem] tracking-[0.3em] text-[#9c8068]">
             {content.meta.address}

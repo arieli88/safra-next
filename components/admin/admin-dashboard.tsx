@@ -30,7 +30,7 @@ function syncMirrors(content: SiteContent): SiteContent {
   };
   next.about.addressText ||= next.meta.address;
   next.hero.infoCards = next.hero.infoCards.map((card) => ({ ...card, hidden: card.hidden ?? false }));
-  next.meta.resourcesLink ||= MATERIALS_LINK;
+  next.meta.resourcesLink ||= "https://drive.google.com/drive/folders/1VerAkXvv7LTz3SoGuzgo1dNwcm8GGoz2";
 
   if (!next.community.tracks[0]) {
     next.community.tracks[0] = {
@@ -180,7 +180,7 @@ export function AdminDashboard({ initialContent }: Readonly<{ initialContent: Si
           ))}
 
           <a
-            href={draft.meta.resourcesLink || MATERIALS_DRIVE_LINK}
+            href={MATERIALS_DRIVE_LINK}
             target="_blank"
             rel="noreferrer"
             className="rounded-full bg-white/80 px-5 py-2.5 text-sm font-bold text-foreground transition hover:bg-white"

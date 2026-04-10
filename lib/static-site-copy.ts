@@ -1,7 +1,7 @@
 import type { SiteContent } from "@/lib/types";
 
 const STATIC_ADDRESS = "בית אמונה, דרך השלום 11, תל אביב";
-const STATIC_RESOURCES_LINK = "https://drive.google.com/drive/folders/1PCvW8fBPFVU8LrGnySftuCONQcJ8obf3?usp=sharing";
+const STATIC_RESOURCES_LINK = "https://drive.google.com/drive/folders/1VerAkXvv7LTz3SoGuzgo1dNwcm8GGoz2";
 
 export function withStaticSiteCopy(content: SiteContent): SiteContent {
   const next = structuredClone(content);
