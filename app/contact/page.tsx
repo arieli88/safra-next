@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 
 import { ContactExperience } from "@/components/site/contact-experience";
-import { buildPlaceJsonLd, createPageMetadata } from "@/lib/seo";
+import { buildPlaceJsonLd, createPageMetadata, stringifyJsonLd } from "@/lib/seo";
 import { getSiteContent } from "@/lib/site-content-store";
 import { withStaticSiteCopy } from "@/lib/static-site-copy";
-
-export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = withStaticSiteCopy(await getSiteContent());
@@ -27,7 +25,7 @@ export default async function ContactPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(placeJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: stringifyJsonLd(placeJsonLd) }}
       />
       <ContactExperience content={staticContent} />
     </>

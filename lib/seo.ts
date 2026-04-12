@@ -11,6 +11,12 @@ type PageSeoInput = {
   keywords?: string[];
 };
 
+type JsonLdNode = {
+  "@context": "https://schema.org";
+  "@type": string;
+  [key: string]: unknown;
+};
+
 const SITE_NAME = "\u05d1\u05d9\u05ea \u05de\u05d3\u05e8\u05e9 \u05e1\u05e4\u05e8\u05d0";
 const TEL_AVIV_JAFFA = "\u05ea\u05dc \u05d0\u05d1\u05d9\u05d1-\u05d9\u05e4\u05d5";
 
@@ -73,7 +79,7 @@ export function buildOrganizationJsonLd(content: SiteContent) {
 
   return {
     "@context": "https://schema.org",
-    "@type": "ReligiousOrganization",
+    "@type": "Organization",
     "@id": getAbsoluteUrl("/#organization"),
     name: content.nav.title,
     url: getAbsoluteUrl("/"),
@@ -108,6 +114,7 @@ export function buildFaqJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    "@id": getAbsoluteUrl("/#faq"),
     mainEntity: [
       {
         "@type": "Question",
@@ -219,4 +226,8 @@ export function buildPlaceJsonLd(content: SiteContent) {
       description: hours,
     })),
   };
+}
+
+export function stringifyJsonLd(jsonLd: JsonLdNode) {
+  return JSON.stringify(jsonLd).replace(/</g, "\\u003c");
 }

@@ -4,8 +4,6 @@ import { requireAdminAuth } from "@/lib/auth";
 import { getSiteContent } from "@/lib/site-content-store";
 import { withStaticSiteCopy } from "@/lib/static-site-copy";
 
-export const dynamic = "force-dynamic";
-
 export default async function AdminPage() {
   await requireAdminAuth();
   const content = await getSiteContent();

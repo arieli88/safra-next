@@ -7,11 +7,10 @@ import {
   buildOrganizationJsonLd,
   buildWebsiteJsonLd,
   createPageMetadata,
+  stringifyJsonLd,
 } from "@/lib/seo";
-import { getHotAlerts, getSiteContent } from "@/lib/site-content-store";
+import { getSiteContent } from "@/lib/site-content-store";
 import { withStaticSiteCopy } from "@/lib/static-site-copy";
-
-export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = withStaticSiteCopy(await getSiteContent());
@@ -24,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [content, hotAlerts] = await Promise.all([getSiteContent(), getHotAlerts()]);
+  const content = await getSiteContent();
   const chronicle = getChronicleInfo();
   const staticContent = withStaticSiteCopy(content);
   const faqJsonLd = buildFaqJsonLd();
@@ -51,17 +50,21 @@ export default async function HomePage() {
       </section>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: stringifyJsonLd(organizationJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: stringifyJsonLd(websiteJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: stringifyJsonLd(faqJsonLd) }}
       />
-      <HomeLanding content={{ ...staticContent, ticker: hotAlerts }} chronicle={chronicle} />
+      <HomeLanding
+        content={staticContent}
+        chronicle={chronicle}
+        initialTickerItems={content.ticker}
+      />
     </>
   );
 }

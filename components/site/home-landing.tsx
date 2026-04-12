@@ -18,12 +18,17 @@ import { FaWhatsapp } from "react-icons/fa";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 
 import { Footer } from "@/components/site/footer";
+import { LiveTickerStrip } from "@/components/site/live-ticker-strip";
 import TrueFocus from "@/components/site/true-focus";
 import { getChronicleInfo, type ChronicleInfo } from "@/lib/calendar";
-import type { SiteContent } from "@/lib/types";
+import type { SiteContent, TickerItem } from "@/lib/types";
 import { AuroraText } from "@/registry/magicui/aurora-text";
 
-type HomeLandingProps = { content: SiteContent; chronicle: ChronicleInfo };
+type HomeLandingProps = {
+  content: SiteContent;
+  chronicle: ChronicleInfo;
+  initialTickerItems: TickerItem[];
+};
 type HistoryStep = {
   id: string;
   image: SiteContent["history"]["media"][number]["image"];
@@ -53,19 +58,6 @@ function getPrimaryCta(content: SiteContent) {
   )
     return { label: content.hero.ctaLabel, href: content.hero.ctaHref };
   return { label: "בואו לפגוש את ספרא", href: "/contact" };
-}
-
-function getLiveUpdates(content: SiteContent) {
-  const items = content.ticker
-    .filter((item) => !item.hidden && item.text.trim())
-    .map((item) => item.text.trim());
-  return items.length > 0
-    ? items
-    : [
-        "יום ראשון | 19:00 | ערב לימוד פתוח",
-        "שיח, ארוחה ומפגש באמצע תל אביב",
-        "פרשת השבוע נלמדת יחד, לאט ובלי רעש",
-      ];
 }
 
 function getHeroImages(content: SiteContent) {
@@ -379,13 +371,12 @@ const MobileHeroBackdrop = memo(function MobileHeroBackdrop({
 function TopBar({
   content,
   chronicle,
-  updates,
+  initialTickerItems,
 }: Readonly<{
   content: SiteContent;
   chronicle: ChronicleInfo;
-  updates: string[];
+  initialTickerItems: TickerItem[];
 }>) {
-  const reduceMotion = useReducedMotion();
   const [menuOpen, setMenuOpen] = useState(false);
   const fallbackChronicle = useMemo(() => {
     if (chronicle.weekdayLabel && chronicle.hebrewDate && chronicle.parshaLabel) {
@@ -439,7 +430,6 @@ function TopBar({
 
   const infoLineMobile = `${safeChronicle.weekdayLabel || "יום שישי"} | ${safeChronicle.hebrewDate || "כ״ז באדר תשפ״ו"} | ${getShortGregorianDate()} | ${safeChronicle.parshaLabel || "פרשת השבוע"}`;
   const infoLineDesktop = `${safeChronicle.weekdayLabel || "יום שישי"} | ${safeChronicle.hebrewDate || "כ״ז באדר תשפ״ו"} | ${getShortGregorianDate()} | פרשת: ${safeChronicle.parshaLabel || "פרשת השבוע"}`;
-  const tickerItems = [...updates, ...updates];
   const links = [
     { label: "בית", href: "#home" },
     { label: "אודות", href: "#about" },
@@ -534,32 +524,7 @@ function TopBar({
             </p>
           </div>
         </div>
-        <div className="border-b border-[#e6d8ca]/70 bg-[#fbf6ef]/82">
-          <div className="site-section site-shell py-2">
-            <div className="live-strip-mask overflow-hidden rounded-full bg-white/75 px-3 py-2 shadow-[0_8px_24px_rgba(163,129,98,0.08)]">
-              <motion.div
-                className="flex w-max gap-8 whitespace-nowrap text-[0.74rem] text-[#7d6552] sm:text-[0.82rem]"
-                initial={{ x: 0 }}
-                animate={reduceMotion ? undefined : { x: ["0%", "42%"] }}
-                transition={{
-                  duration: 20,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "linear",
-                }}
-              >
-                {tickerItems.map((item, index) => (
-                  <span
-                    key={`${item}-${index}`}
-                    className="inline-flex items-center gap-2"
-                  >
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#d1a676]" />
-                    {item}
-                  </span>
-                ))}
-              </motion.div>
-            </div>
-          </div>
-        </div>
+        <LiveTickerStrip initialItems={initialTickerItems} />
       </div>
     </>
   );
@@ -1204,9 +1169,9 @@ function ClosingSection({ content }: Readonly<{ content: SiteContent }>) {
         <RevealSection>
           <SectionEyebrow>לבוא כמו שאתם</SectionEyebrow>
           <p className="mt-6 font-serif text-[2.2rem] leading-[1.55] text-[#302319] sm:text-[3rem]">
-            "עשו כתות כתות ועסקו בתורה לפי שאין התורה נקנית אלא בחבורה"
+            &quot;עשו כתות כתות ועסקו בתורה לפי שאין התורה נקנית אלא בחבורה&quot;
              <br />
-            <span className="text-[0.8em] text-[#7d624f]">~מסכת ברכות סג ע"ב~</span>
+            <span className="text-[0.8em] text-[#7d624f]">~מסכת ברכות סג ע&quot;ב~</span>
           </p>
           <p className="mt-5 text-[1rem] leading-8 text-[#6d5a49]">
             מוזמנים לקחת חלק בחבורה שלנו!
@@ -1253,8 +1218,8 @@ function AmbientBackground() {
 export function HomeLanding({
   content,
   chronicle,
+  initialTickerItems,
 }: Readonly<HomeLandingProps>) {
-  const updates = getLiveUpdates(content);
   const heroImage = getHeroImage(content);
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(
     null,
@@ -1290,7 +1255,11 @@ export function HomeLanding({
   return (
     <div className="relative bg-[#fbf6ef] text-[#2d2118]">
       <AmbientBackground />
-      <TopBar content={content} chronicle={chronicle} updates={updates} />
+      <TopBar
+        content={content}
+        chronicle={chronicle}
+        initialTickerItems={initialTickerItems}
+      />
       <main className="relative z-10">
         <HeroSection content={content} heroImage={heroImage} />
         <AboutSection content={content} />

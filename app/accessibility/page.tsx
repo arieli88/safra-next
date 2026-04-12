@@ -7,8 +7,6 @@ import { createPageMetadata } from "@/lib/seo";
 import { getSiteContent } from "@/lib/site-content-store";
 import { withStaticSiteCopy } from "@/lib/static-site-copy";
 
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata(): Promise<Metadata> {
   const content = withStaticSiteCopy(await getSiteContent());
 

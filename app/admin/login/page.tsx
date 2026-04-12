@@ -6,8 +6,6 @@ import { isAdminAuthenticated } from "@/lib/auth";
 import { getSiteContent } from "@/lib/site-content-store";
 import { withStaticSiteCopy } from "@/lib/static-site-copy";
 
-export const dynamic = "force-dynamic";
-
 export default async function AdminLoginPage() {
   const authenticated = await isAdminAuthenticated();
   const content = await getSiteContent();

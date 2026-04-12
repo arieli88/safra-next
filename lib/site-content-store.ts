@@ -1,6 +1,6 @@
 import { kv } from "@vercel/kv";
 import { createClient, type RedisClientType } from "redis";
-import { revalidateTag, unstable_cache, unstable_noStore as noStore } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 
 import { defaultSiteContent } from "@/lib/default-site-content";
 import { normalizeNestedDriveLinks } from "@/lib/drive";
@@ -138,7 +138,6 @@ export async function getSiteContent(): Promise<SiteContent> {
 }
 
 export async function getHotAlerts(): Promise<TickerItem[]> {
-  noStore();
   const content = await readSiteContentFromDataSource();
   return content.ticker;
 }
