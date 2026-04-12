@@ -104,6 +104,95 @@ export function buildWebsiteJsonLd(content: SiteContent) {
   };
 }
 
+export function buildFaqJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "מה זה בית מדרש ספרא?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "בית מדרש ספרא הוא בית מדרש קהילתי בלב תל אביב המיועד לחיילים, חיילות, בנות שירות ובני שירות לאומי, דתיים וחילונים, המחפשים לימוד, חיבור וקהילה בזמן השירות הצבאי או הלאומי.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "למי מתאים בית מדרש ספרא?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "בית המדרש מתאים לחיילים וחיילות, בנות שירות ובני שירות לאומי, וכן לבוגרי ישיבות ומדרשות במהלך שירותם.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "האם צריך ידע קודם בלימוד תורה או גמרא?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "כן, בדרך כלל נדרש רקע בסיסי בלימוד גמרא. המפגשים בנויים ללומדים שכבר חוו לימוד במסגרת ישיבה, מדרשה או מכינה.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "איפה נמצא בית מדרש ספרא?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "בית מדרש ספרא ממוקם בבית אמונה, דרך השלום 11, תל אביב. 5 דקות הליכה מתחנת רכבת השלום.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "מתי מתקיימים השיעורים?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "השיעורים מתקיימים פעמיים בשבוע: יום ראשון ויום רביעי בין השעות 19:00–21:45.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "מה לומדים בבית מדרש ספרא?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "הלימוד מתמקד בעיקר בגמרא, לצד לימוד תורה, הלכה ומחשבת ישראל, בשילוב חברותות, שיעורים ושיח פתוח.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "איך נראה ערב בבית מדרש ספרא?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "הערב כולל לימוד גמרא וחברותות, שיעור מרכזי, שיח קהילתי וארוחת ערב קלה משותפת באווירה פתוחה ומשמעותית.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "האם מתאים גם לחיילים אחרי יום שירות אינטנסיבי?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "כן. בית המדרש נבנה במיוחד עבור חיילים וחיילות, כולל כאלה המגיעים לאחר יום שירות עמוס, למשל בתפקידי מודיעין ומטה, ומחפשים מקום של חיבור ולימוד.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "האם יש גם מרכיב חברתי בבית המדרש?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "כן. מעבר ללימוד, המקום יוצר קהילה קבועה, חברותות וקשרים חברתיים משמעותיים בין המשתתפים.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "האם אפשר להגיע לשיעור ניסיון?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "כן. ניתן להצטרף לשיעורים ללא התחייבות. הכניסה חינם!",
+        },
+      },
+    ],
+  };
+}
+
 export function buildPlaceJsonLd(content: SiteContent) {
   const email = getEmailAddress(content.meta.email);
   const telephone = getTelephone(content);

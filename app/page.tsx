@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { HomeLanding } from "@/components/site/home-landing";
 import { getChronicleInfo } from "@/lib/calendar";
 import {
+  buildFaqJsonLd,
   buildOrganizationJsonLd,
   buildWebsiteJsonLd,
   createPageMetadata,
@@ -26,6 +27,7 @@ export default async function HomePage() {
   const [content, hotAlerts] = await Promise.all([getSiteContent(), getHotAlerts()]);
   const chronicle = getChronicleInfo();
   const staticContent = withStaticSiteCopy(content);
+  const faqJsonLd = buildFaqJsonLd();
   const organizationJsonLd = buildOrganizationJsonLd(staticContent);
   const websiteJsonLd = buildWebsiteJsonLd(staticContent);
   const aboutIntro = staticContent.about.body.trim();
@@ -54,6 +56,10 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <HomeLanding content={{ ...staticContent, ticker: hotAlerts }} chronicle={chronicle} />
     </>
