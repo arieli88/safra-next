@@ -26,8 +26,8 @@ function getTelephone(content: SiteContent) {
 
 export function createPageMetadata({ title, description, path = "/", keywords = [] }: PageSeoInput): Metadata {
   const absoluteUrl = getAbsoluteUrl(path);
-  const socialImage = getAbsoluteUrl("/opengraph-image");
-  const titleWithBrand = path === "/" ? title : `${title} | בית מדרש ספרא`;
+  const socialImage = getAbsoluteUrl("/og-image");
+  const titleWithBrand = path === "/" ? title : `${title} | ׳‘׳™׳× ׳׳“׳¨׳© ׳¡׳₪׳¨׳`;
 
   return {
     title: titleWithBrand,
@@ -40,7 +40,7 @@ export function createPageMetadata({ title, description, path = "/", keywords = 
       title: titleWithBrand,
       description,
       url: absoluteUrl,
-      siteName: "בית מדרש ספרא",
+      siteName: "׳‘׳™׳× ׳׳“׳¨׳© ׳¡׳₪׳¨׳",
       locale: "he_IL",
       type: "website",
       images: [
@@ -48,7 +48,7 @@ export function createPageMetadata({ title, description, path = "/", keywords = 
           url: socialImage,
           width: 1200,
           height: 630,
-          alt: "בית מדרש ספרא",
+          alt: "׳‘׳™׳× ׳׳“׳¨׳© ׳¡׳₪׳¨׳",
         },
       ],
     },
@@ -74,13 +74,13 @@ export function buildOrganizationJsonLd(content: SiteContent) {
     url: getAbsoluteUrl("/"),
     description: content.meta.description,
     logo: getAbsoluteUrl("/icons/icon-512.png"),
-    image: getAbsoluteUrl("/opengraph-image"),
+    image: getAbsoluteUrl("/og-image"),
     email,
     telephone,
     address: {
       "@type": "PostalAddress",
       streetAddress: content.meta.address,
-      addressLocality: "תל אביב-יפו",
+      addressLocality: "׳×׳ ׳׳‘׳™׳‘-׳™׳₪׳•",
       addressCountry: "IL",
     },
     sameAs,
@@ -110,11 +110,11 @@ export function buildPlaceJsonLd(content: SiteContent) {
     name: content.footer.title,
     description: content.contactPage.description,
     url: getAbsoluteUrl("/contact"),
-    image: getAbsoluteUrl("/opengraph-image"),
+    image: getAbsoluteUrl("/og-image"),
     address: {
       "@type": "PostalAddress",
       streetAddress: content.meta.address,
-      addressLocality: "תל אביב-יפו",
+      addressLocality: "׳×׳ ׳׳‘׳™׳‘-׳™׳₪׳•",
       addressCountry: "IL",
     },
     telephone,
