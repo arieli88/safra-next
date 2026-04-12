@@ -6,12 +6,12 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 export async function GET() {
-  const filePath = path.join(process.cwd(), "public", "og-image.png");
+  const filePath = path.join(process.cwd(), "public", "og-image.jpg");
   const buffer = await readFile(filePath);
 
   return new NextResponse(buffer, {
     headers: {
-      "content-type": "image/png",
+      "content-type": "image/jpeg",
       "cache-control": "public, max-age=31536000, immutable",
     },
   });

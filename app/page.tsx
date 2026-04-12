@@ -28,9 +28,25 @@ export default async function HomePage() {
   const staticContent = withStaticSiteCopy(content);
   const organizationJsonLd = buildOrganizationJsonLd(staticContent);
   const websiteJsonLd = buildWebsiteJsonLd(staticContent);
+  const aboutIntro = staticContent.about.body.trim();
+  const address = staticContent.about.addressText || staticContent.meta.address;
+  const hours = staticContent.contactPage.hours.filter((hour) => hour.trim());
 
   return (
     <>
+      <section
+        aria-label="מידע מקדים"
+        className="sr-only"
+      >
+        <p>{aboutIntro}</p>
+        <p>כתובת: {address}</p>
+        <p>זמני פעילות:</p>
+        <ul>
+          {hours.map((hour) => (
+            <li key={hour}>{hour}</li>
+          ))}
+        </ul>
+      </section>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}

@@ -29,7 +29,7 @@ function getTelephone(content: SiteContent) {
 
 export function createPageMetadata({ title, description, path = "/", keywords = [] }: PageSeoInput): Metadata {
   const absoluteUrl = getAbsoluteUrl(path);
-  const socialImage = getAbsoluteUrl("/og-image.png");
+  const socialImage = getAbsoluteUrl("/og-image.jpg");
   const titleWithBrand = path === "/" ? title : `${title} | ${SITE_NAME}`;
 
   return {
@@ -79,7 +79,7 @@ export function buildOrganizationJsonLd(content: SiteContent) {
     url: getAbsoluteUrl("/"),
     description: content.meta.description,
     logo: getAbsoluteUrl("/icons/icon-512.png"),
-    image: getAbsoluteUrl("/og-image.png"),
+    image: getAbsoluteUrl("/og-image.jpg"),
     email,
     telephone,
     address: {
@@ -115,7 +115,7 @@ export function buildPlaceJsonLd(content: SiteContent) {
     name: content.footer.title,
     description: content.contactPage.description,
     url: getAbsoluteUrl("/contact"),
-    image: getAbsoluteUrl("/og-image.png"),
+    image: getAbsoluteUrl("/og-image.jpg"),
     address: {
       "@type": "PostalAddress",
       streetAddress: content.meta.address,
