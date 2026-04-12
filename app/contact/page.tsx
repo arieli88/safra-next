@@ -2,11 +2,10 @@ import type { Metadata } from "next";
 
 import { ContactExperience } from "@/components/site/contact-experience";
 import { buildPlaceJsonLd, createPageMetadata, stringifyJsonLd } from "@/lib/seo";
-import { getSiteContent } from "@/lib/site-content-store";
-import { withStaticSiteCopy } from "@/lib/static-site-copy";
+import { getContactPageData } from "@/lib/site-content-data";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = withStaticSiteCopy(await getSiteContent());
+  const { content } = await getContactPageData();
 
   return createPageMetadata({
     title: "צור קשר, דרכי הגעה ושעות פעילות",
@@ -17,9 +16,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ContactPage() {
-  const content = await getSiteContent();
-  const staticContent = withStaticSiteCopy(content);
-  const placeJsonLd = buildPlaceJsonLd(staticContent);
+  const { content } = await getContactPageData();
+  const placeJsonLd = buildPlaceJsonLd(content);
 
   return (
     <>
@@ -27,7 +25,7 @@ export default async function ContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: stringifyJsonLd(placeJsonLd) }}
       />
-      <ContactExperience content={staticContent} />
+      <ContactExperience content={content} />
     </>
   );
 }

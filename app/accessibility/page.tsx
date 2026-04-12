@@ -4,11 +4,10 @@ import Link from "next/link";
 import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
 import { createPageMetadata } from "@/lib/seo";
-import { getSiteContent } from "@/lib/site-content-store";
-import { withStaticSiteCopy } from "@/lib/static-site-copy";
+import { getAccessibilityPageData } from "@/lib/site-content-data";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = withStaticSiteCopy(await getSiteContent());
+  const { content } = await getAccessibilityPageData();
 
   return createPageMetadata({
     title: "הצהרת נגישות",
@@ -20,8 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AccessibilityPage() {
-  const content = withStaticSiteCopy(await getSiteContent());
-  const visibleLecturers = content.contactPage.lecturers.filter((lecturer) => !lecturer.hidden);
+  const { content, visibleLecturers } = await getAccessibilityPageData();
 
   return (
     <div className="min-h-screen">

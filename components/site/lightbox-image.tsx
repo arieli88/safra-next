@@ -1,8 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
-
 "use client";
 
 import { X } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -67,16 +66,20 @@ export function LightboxImage({
             </button>
 
             <div className="flex h-full w-full items-center justify-center p-2 sm:p-6" onClick={(event) => event.stopPropagation()}>
-              <img
-                src={activeSrc}
-                alt={alt}
-                className="h-full w-full object-contain"
-                onError={(event) => {
-                  if (proxiedSrc && event.currentTarget.src !== new URL(proxiedSrc, window.location.origin).toString()) {
-                    setActiveSrc(proxiedSrc);
-                  }
-                }}
-              />
+              <div className="relative h-full w-full">
+                <Image
+                  src={activeSrc}
+                  alt={alt}
+                  fill
+                  sizes="90vw"
+                  className="object-contain"
+                  onError={() => {
+                    if (proxiedSrc && activeSrc !== proxiedSrc) {
+                      setActiveSrc(proxiedSrc);
+                    }
+                  }}
+                />
+              </div>
             </div>
           </div>,
           document.body,
@@ -94,13 +97,15 @@ export function LightboxImage({
       ) : (
         <button type="button" className={`group block w-full text-right ${className}`} onClick={() => setIsOpen(true)}>
           <div className={`image-hover-shell relative overflow-hidden ${aspectClassName}`}>
-            <img
+            <Image
               src={activeSrc}
               alt={alt}
-              className={`h-full w-full image-hover-media ${imageClassName}`}
+              fill
+              sizes="(max-width: 640px) 92vw, (max-width: 1024px) 48vw, 33vw"
+              className={`image-hover-media ${imageClassName}`}
               loading="lazy"
-              onError={(event) => {
-                if (proxiedSrc && event.currentTarget.src !== new URL(proxiedSrc, window.location.origin).toString()) {
+              onError={() => {
+                if (proxiedSrc && activeSrc !== proxiedSrc) {
                   setActiveSrc(proxiedSrc);
                 }
               }}

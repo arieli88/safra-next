@@ -12,7 +12,7 @@ type PageSeoInput = {
 };
 
 type JsonLdNode = {
-  "@context": "https://schema.org";
+  "@context": string;
   "@type": string;
   [key: string]: unknown;
 };

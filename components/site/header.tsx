@@ -88,7 +88,7 @@ export function Header({ nav, logoUrl, linksOverride }: Readonly<HeaderProps>) {
                   src={logoUrl}
                   alt={nav.title}
                   fill
-                  sizes="52px"
+                  sizes="(max-width: 640px) 48px, 52px"
                   className="object-contain p-1 transition duration-300 ease-out group-hover:scale-110"
                 />
               </div>

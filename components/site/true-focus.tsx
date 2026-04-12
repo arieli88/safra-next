@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import type { CSSProperties } from "react";
 
 import styles from "@/components/site/true-focus.module.css";

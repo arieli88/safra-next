@@ -1,13 +1,11 @@
 import { AdminDashboard } from "@/components/admin/admin-dashboard";
 import { Header } from "@/components/site/header";
 import { requireAdminAuth } from "@/lib/auth";
-import { getSiteContent } from "@/lib/site-content-store";
-import { withStaticSiteCopy } from "@/lib/static-site-copy";
+import { getAdminPageData } from "@/lib/site-content-data";
 
 export default async function AdminPage() {
   await requireAdminAuth();
-  const content = await getSiteContent();
-  const viewContent = withStaticSiteCopy(content);
+  const { content, viewContent } = await getAdminPageData();
 
   return (
     <div className="min-h-screen">

@@ -3,13 +3,11 @@ import { redirect } from "next/navigation";
 import { AdminLoginForm } from "@/components/admin/admin-login-form";
 import { Header } from "@/components/site/header";
 import { isAdminAuthenticated } from "@/lib/auth";
-import { getSiteContent } from "@/lib/site-content-store";
-import { withStaticSiteCopy } from "@/lib/static-site-copy";
+import { getAdminPageData } from "@/lib/site-content-data";
 
 export default async function AdminLoginPage() {
   const authenticated = await isAdminAuthenticated();
-  const content = await getSiteContent();
-  const viewContent = withStaticSiteCopy(content);
+  const { viewContent } = await getAdminPageData();
 
   if (authenticated) {
     redirect("/admin");

@@ -42,7 +42,7 @@ export function LiveTickerStrip({
           setItems(getVisibleTickerItems(nextItems));
         }
       } catch {
-        // Keep the current ticker items if the refresh fails.
+        // Keep the server-rendered ticker items if refresh fails.
       }
     };
 

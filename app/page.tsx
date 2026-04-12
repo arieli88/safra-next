@@ -9,11 +9,10 @@ import {
   createPageMetadata,
   stringifyJsonLd,
 } from "@/lib/seo";
-import { getSiteContent } from "@/lib/site-content-store";
-import { withStaticSiteCopy } from "@/lib/static-site-copy";
+import { getHomePageData } from "@/lib/site-content-data";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = withStaticSiteCopy(await getSiteContent());
+  const { content } = await getHomePageData();
 
   return createPageMetadata({
     title: content.meta.title,
@@ -23,15 +22,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const content = await getSiteContent();
+  const { content, tickerItems, aboutIntro, address, hours } = await getHomePageData();
   const chronicle = getChronicleInfo();
-  const staticContent = withStaticSiteCopy(content);
   const faqJsonLd = buildFaqJsonLd();
-  const organizationJsonLd = buildOrganizationJsonLd(staticContent);
-  const websiteJsonLd = buildWebsiteJsonLd(staticContent);
-  const aboutIntro = staticContent.about.body.trim();
-  const address = staticContent.about.addressText || staticContent.meta.address;
-  const hours = staticContent.contactPage.hours.filter((hour) => hour.trim());
+  const organizationJsonLd = buildOrganizationJsonLd(content);
+  const websiteJsonLd = buildWebsiteJsonLd(content);
 
   return (
     <>
@@ -61,9 +56,9 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: stringifyJsonLd(faqJsonLd) }}
       />
       <HomeLanding
-        content={staticContent}
+        content={content}
         chronicle={chronicle}
-        initialTickerItems={content.ticker}
+        initialTickerItems={tickerItems}
       />
     </>
   );

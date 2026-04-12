@@ -1,7 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
-
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -53,15 +52,20 @@ export function Hero({ hero, address, resourcesLink }: Readonly<HeroProps>) {
 
           {visibleImages.map((image, index) => (
             <div key={`${image.src}-${index}`} className={`hero-fade absolute inset-0 ${index === safeActiveIndex ? "opacity-100" : "opacity-0"}`}>
-              <img
+              <Image
                 src={getDisplayImageSrc(image.src)}
                 alt={image.alt}
-                className="h-full w-full object-cover"
+                fill
+                sizes="(max-width: 1024px) 100vw, 58vw"
+                className="object-cover"
+                priority={index === 0}
+                fetchPriority={index === 0 ? "high" : "auto"}
                 loading={index === 0 ? "eager" : "lazy"}
                 onError={(event) => {
                   const proxied = getProxiedImageSrc(image.src);
-                  if (proxied && event.currentTarget.src !== new URL(proxied, window.location.origin).toString()) {
-                    event.currentTarget.src = proxied;
+                  const target = event.currentTarget as HTMLImageElement;
+                  if (proxied && target.src !== new URL(proxied, window.location.origin).toString()) {
+                    target.src = proxied;
                   }
                 }}
               />

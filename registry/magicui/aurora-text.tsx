@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 export function AuroraText({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

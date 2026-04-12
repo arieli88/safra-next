@@ -236,7 +236,7 @@ function RevealSection({
   );
 }
 
-const HeroVisual = memo(function HeroVisual({
+const HeroMedia = memo(function HeroMedia({
   heroImages,
   heroImage,
 }: Readonly<{
@@ -256,8 +256,8 @@ const HeroVisual = memo(function HeroVisual({
   }, [heroImages]);
 
   return (
-    <div className="relative">
-      <div className="relative mx-auto aspect-[4/4] w-full overflow-hidden rounded-[2.2rem] bg-[#f4eadf] shadow-[0_30px_80px_rgba(142,110,84,0.15)] sm:max-w-none sm:aspect-[4/5] sm:rounded-[2.4rem]">
+    <div className="pointer-events-none absolute inset-x-0 -top-10 bottom-[-2.5rem] -z-10 max-w-full overflow-hidden rounded-[2rem] opacity-30 sm:pointer-events-auto sm:relative sm:inset-auto sm:bottom-auto sm:top-auto sm:z-auto sm:block sm:overflow-visible sm:rounded-none sm:opacity-100">
+      <div className="relative mx-auto h-full w-full overflow-hidden rounded-[2rem] bg-[#f4eadf] shadow-none sm:aspect-[4/5] sm:rounded-[2.4rem] sm:shadow-[0_30px_80px_rgba(142,110,84,0.15)]">
         {heroImages.length > 0 ? (
           heroImages.map((image, index) => (
             <motion.div
@@ -278,7 +278,7 @@ const HeroVisual = memo(function HeroVisual({
                 fetchPriority={index === 0 ? "high" : "auto"}
                 loading={index === 0 ? "eager" : "lazy"}
                 quality={82}
-                sizes="(max-width: 1024px) 76vw, 42vw"
+                sizes="(max-width: 639px) 100vw, (max-width: 1024px) 76vw, 42vw"
                 className="object-cover"
               />
             </motion.div>
@@ -291,79 +291,12 @@ const HeroVisual = memo(function HeroVisual({
             priority
             fetchPriority="high"
             quality={82}
-            sizes="(max-width: 1024px) 76vw, 42vw"
+            sizes="(max-width: 639px) 100vw, (max-width: 1024px) 76vw, 42vw"
             className="object-cover"
           />
         ) : null}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.62),transparent_34%),linear-gradient(180deg,rgba(255,249,241,0.02),rgba(65,44,30,0.22))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(251,246,239,0.94),rgba(251,246,239,0.58),rgba(251,246,239,0.96))] sm:bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.62),transparent_34%),linear-gradient(180deg,rgba(255,249,241,0.02),rgba(65,44,30,0.22))]" />
       </div>
-    </div>
-  );
-});
-
-const MobileHeroBackdrop = memo(function MobileHeroBackdrop({
-  heroImages,
-  heroImage,
-}: Readonly<{
-  heroImages: SiteContent["hero"]["images"];
-  heroImage?:
-    | SiteContent["hero"]["images"][number]
-    | SiteContent["gallery"]["carousels"][number]["images"][number];
-}>) {
-  const [activeHeroIndex, setActiveHeroIndex] = useState(0);
-  const mobileHeroImage = heroImages[0] ?? heroImage;
-
-  useEffect(() => {
-    if (heroImages.length < 2) return;
-    const interval = window.setInterval(
-      () => setActiveHeroIndex((current) => (current + 1) % heroImages.length),
-      7000,
-    );
-    return () => window.clearInterval(interval);
-  }, [heroImages.length]);
-
-  if (!mobileHeroImage?.src) return null;
-
-  return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-x-[-1rem] -top-10 bottom-[-2.5rem] -z-10 overflow-hidden rounded-[2rem] opacity-30 sm:hidden"
-    >
-      {heroImages.length > 0 ? (
-        heroImages.map((image, index) => (
-          <motion.div
-            key={`${image.src}-mobile-${index}`}
-            className="absolute inset-0"
-            initial={false}
-            animate={{ opacity: index === activeHeroIndex ? 1 : 0 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-          >
-            <Image
-              src={image.src}
-              alt=""
-              fill
-              priority={index === 0}
-              fetchPriority={index === 0 ? "high" : "auto"}
-              loading={index === 0 ? "eager" : "lazy"}
-              quality={74}
-              sizes="100vw"
-              className="object-cover"
-            />
-          </motion.div>
-        ))
-      ) : (
-        <Image
-          src={mobileHeroImage.src}
-          alt=""
-          fill
-          priority
-          fetchPriority="high"
-          quality={74}
-          sizes="100vw"
-          className="object-cover"
-        />
-      )}
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(251,246,239,0.94),rgba(251,246,239,0.58),rgba(251,246,239,0.96))]" />
     </div>
   );
 });
@@ -450,7 +383,7 @@ function TopBar({
                   src={content.meta.logoUrl}
                   alt={content.nav.title}
                   fill
-                  sizes="52px"
+                  sizes="(max-width: 640px) 48px, 52px"
                   className="object-contain p-1 transition duration-300 ease-out group-hover:scale-110"
                 />
               </div>
@@ -759,7 +692,6 @@ function HeroSection({
 
       <div className="site-shell relative z-10 grid items-center gap-8 lg:grid-cols-[1.08fr_0.92fr]">
         <RevealSection amount={0.4} className="relative z-10">
-          {isMobile ? <MobileHeroBackdrop heroImages={heroImages} heroImage={heroImage} /> : null}
           <SectionEyebrow>{content.hero.eyebrow || "בית מדרש"}</SectionEyebrow>
           <motion.h1
             initial={reduceMotion ? undefined : { opacity: 0, y: 32 }}
@@ -821,10 +753,10 @@ function HeroSection({
           </motion.div>
         </RevealSection>
 
-        <div className="hidden sm:block">
-          <HeroVisual heroImages={heroImages} heroImage={heroImage} />
+          <div className="contents sm:relative sm:block">
+            <HeroMedia heroImages={heroImages} heroImage={heroImage} />
+          </div>
         </div>
-      </div>
     </section>
   );
 }
@@ -1239,9 +1171,9 @@ export function HomeLanding({
 ( ___ )                                           ( ___ )
  |   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|   | 
  |   |    _           _         _   _   ___   ___  |   | 
- |   |   /_\\\\    _ _  (_)  ___  | | (_) ( _ ) ( _ ) |   | 
- |   |  / _ \\\\  | '_| | | / -_) | | | | / _ \\\\ / _ \\\\ |   | 
- |   | /_/ \\\\_\\\\ |_|   |_| \\\\___| |_| |_| \\\\___/ \\\\___/ |   | 
+ |   |   /_\\\    _ _  (_)  ___  | | (_) ( _ ) ( _ ) |   | 
+ |   |  / _ \\\  | '_| | | / -_) | | | | / _ \\\ / _ \\ |   | 
+ |   | /_/ \\\_\\\ |_|   |_| \\\\___||_| |_| \\\___/ \\\___/ |   | 
  |___|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|___| 
 (_____)                                           (_____)
 `;

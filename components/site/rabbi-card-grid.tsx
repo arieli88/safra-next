@@ -1,8 +1,8 @@
 "use client";
-/* eslint-disable @next/next/no-img-element */
 
 import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import { PhoneCall } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -96,11 +96,14 @@ function RabbiCard({ lecturer, tiltStrength = 2, imageBlurPx = 8 }: Readonly<Rab
 
             <div className="relative z-10 flex h-full flex-col">
               <div className="relative h-56 overflow-hidden rounded-t-[calc(1.35rem-1px)]">
-                <img
+                <Image
                   src={lecturer.imageSrc}
                   alt=""
                   aria-hidden="true"
-                  className="absolute inset-0 h-full w-full scale-125 object-cover"
+                  fill
+                  sizes="(max-width: 640px) 50vw, 320px"
+                  className="scale-125 object-cover"
+                  loading="lazy"
                   style={{ filter: `blur(${imageBlurPx}px)` }}
                 />
                 <motion.div
@@ -109,10 +112,13 @@ function RabbiCard({ lecturer, tiltStrength = 2, imageBlurPx = 8 }: Readonly<Rab
                   animate={reduceMotion ? undefined : isActive ? { y: -8, scale: 1.06 } : { y: 0, scale: 1 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
                 >
-                  <img
+                  <Image
                     src={lecturer.imageSrc}
                     alt={lecturer.imageAlt}
-                    className="h-full w-full object-contain"
+                    fill
+                    sizes="(max-width: 640px) 50vw, 320px"
+                    className="object-contain"
+                    loading="lazy"
                   />
                 </motion.div>
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,16,26,0.02),rgba(12,16,26,0.24))]" />
