@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 
+import { HomeConsoleSignature } from "@/components/site/home-console-signature";
 import { Footer } from "@/components/site/footer";
 import { getHeroImage } from "@/components/site/home-content";
 import { HomeHero } from "@/components/site/home-hero";
@@ -54,6 +55,7 @@ export function HomeLanding({
 
   return (
     <div className="relative bg-[#fbf6ef] text-[#2d2118]">
+      <HomeConsoleSignature />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.72),transparent_34%),linear-gradient(180deg,#fdf9f3_0%,#f8f1e7_48%,#f5ecdf_100%)]"
