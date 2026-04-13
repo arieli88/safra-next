@@ -238,6 +238,30 @@ select {
   transition: opacity 1.4s ease;
 }
 
+.hero-aurora-text {
+  display: inline-block;
+  background-image: linear-gradient(120deg, #7a5334 10%, #d3a16f 35%, #f6d8b7 50%, #b6875a 70%, #7a5334 95%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: hero-aurora-shift 9s linear infinite;
+}
+
+@keyframes hero-aurora-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .landing-grain {
   background-image:
     radial-gradient(circle at 20% 20%, rgba(138, 106, 82, 0.08) 0, transparent 24%),
@@ -509,65 +533,6 @@ html[data-site-word-spacing-active="true"] h6 {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
-}
-
-.accessibility-fab {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  z-index: 140;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  border: 0;
-  border-radius: 999px;
-  background: #5b3d2b;
-  color: #fffaf4;
-  box-shadow: 0 14px 32px rgba(54, 33, 21, 0.22);
-  padding: 0.72rem 0.95rem;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  visibility: visible;
-  opacity: 1;
-  transform: translateZ(0);
-  max-width: calc(100vw - 32px);
-}
-
-.accessibility-fab:hover {
-  background: #714c36;
-}
-
-.accessibility-fab:focus-visible {
-  outline: 3px solid #f0d4b1;
-  outline-offset: 3px;
-}
-
-.accessibility-fab[aria-busy="true"] {
-  cursor: progress;
-}
-
-.accessibility-fab__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.9rem;
-  height: 1.9rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.16);
-  font-size: 1rem;
-  line-height: 1;
-}
-
-.accessibility-fab__label {
-  font-size: 0.95rem;
-  line-height: 1;
-}
-
-html[data-nagishli-custom-trigger="enabled"] #NagishLiTrigger {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  right: -9999px !important;
 }
 
 #NagishLiTrigger {

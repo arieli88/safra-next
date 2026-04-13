@@ -7,6 +7,8 @@ declare global {
       color?: string;
       language?: string;
     };
+    $?: unknown;
+    jQuery?: unknown;
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
     __safraGoogleAnalyticsLoaded__?: boolean;
@@ -24,6 +26,7 @@ type ScriptConfig = {
 
 const NAGISHLI_STORAGE_KEY = "safra:nagishli-opened";
 const GOOGLE_ANALYTICS_ID = "G-ZZ2SSDV73R";
+const JQUERY_CDN_URL = "https://code.jquery.com/jquery-3.7.1.min.js";
 
 function suppressNagishLiJqueryNotice() {
   const originalConsoleWarn = window.console.warn.bind(window.console);
@@ -202,6 +205,14 @@ export async function loadNagishLi() {
   const restoreAriaPatch = suppressInvalidOptionAriaHidden();
 
   try {
+    if (!window.jQuery || !window.$) {
+      await loadManagedScript({
+        key: "jquery",
+        id: "jquery-script",
+        src: JQUERY_CDN_URL,
+      });
+    }
+
     await loadManagedScript({
       key: "nagishli",
       id: "nagishli-script",
